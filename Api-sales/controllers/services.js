@@ -9,16 +9,10 @@ const create = (req, res) => {
         let start_coordinate_validator = !validator.isEmpty(params.start_coordinate);
         let pickup_coordinate_validator = !validator.isEmpty(params.pickup_coordinate);
         let end_coordinate_validator = !validator.isEmpty(params.end_coordinate);
-        let admin_validator = !validator.isEmpty(params.admin);
-        let device_validator = !validator.isEmpty(params.device);
-        let start_time_validator = !validator.isEmpty(params.start_time);
-        let end_time_validator = !validator.isEmpty(params.end_time);
         let service_type_validator = !validator.isEmpty(params.service_type);
-        let product_info_validator = !validator.isEmpty(params.product_info);
-        let event_info_validator = !validator.isEmpty(params.event_info);
-        let requesting_user_validator = !validator.isEmpty(params.requesting_user);
-        let destination_user_validator = !validator.isEmpty(params.destination_user);
-        if( !start_coordinate_validator || !pickup_coordinate_validator || ! end_coordinate_validator || !admin_validator || !device_validator || !start_time_validator || !end_time_validator || !service_type_validator || !product_info_validator || !requesting_user_validator || !event_info_validator || !destination_user_validator){
+        
+        
+        if( !start_coordinate_validator || !pickup_coordinate_validator || ! end_coordinate_validator || !service_type_validator){
             throw new Error("No se ha completado todos los campos");
         }
     }catch(error){
@@ -138,16 +132,10 @@ const edit_by_id = async (req, resp) => {
         let start_coordinate_validator = !validator.isEmpty(params.start_coordinate);
         let pickup_coordinate_validator = !validator.isEmpty(params.pickup_coordinate);
         let end_coordinate_validator = !validator.isEmpty(params.end_coordinate);
-        let admin_validator = !validator.isEmpty(params.admin);
-        let device_validator = !validator.isEmpty(params.device);
-        let start_time_validator = !validator.isEmpty(params.start_time);
-        let end_time_validator = !validator.isEmpty(params.end_time);
         let service_type_validator = !validator.isEmpty(params.service_type);
-        let product_info_validator = !validator.isEmpty(params.product_info);
-        let event_info_validator = !validator.isEmpty(params.event_info);
-        let requesting_user_validator = !validator.isEmpty(params.requesting_user);
-        let destination_user_validator = !validator.isEmpty(params.destination_user);
-        if( !start_coordinate_validator || !pickup_coordinate_validator || ! end_coordinate_validator || !admin_validator || !device_validator || !start_time_validator || !end_time_validator || !service_type_validator || !product_info_validator || !requesting_user_validator || !event_info_validator || !destination_user_validator){
+        
+        
+        if( !start_coordinate_validator || !pickup_coordinate_validator || ! end_coordinate_validator || !service_type_validator){
             throw new Error("No se ha completado todos los campos");
         }
     }catch(error){
