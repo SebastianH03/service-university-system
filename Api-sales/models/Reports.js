@@ -1,19 +1,18 @@
 const { Schema, model } = require("mongoose");
 
-
-const UserSchema = Schema({
+const ReportSchema = Schema({
     name: {
         type: String,
         required: true
     },
-    ID: {
+    pdf_url: {
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true
+    date: {
+        type: Date,
+        default: Date.now
     }
-})
+});
 
-module.exports = model("Customer", UserSchema, "customer")
+module.exports = model("Reports", ReportSchema, "reports")

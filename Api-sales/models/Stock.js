@@ -1,33 +1,21 @@
 const { Schema, model } = require("mongoose");
-const Suppliers = require("./Suppliers");
 
-const ProductSchema = Schema({
-    name:{
+const StockSchema = Schema({
+    device_type:{
         type: String,
         required: true
     },
-    price:{
-        type: Number,
+    device_status:{
+        type: String,
         required: true
     },
-    tags:{
+    spare_parts:{
         type:[String],
         default:[]
     },
-    provider:{
-        type: String,
-        required: true
-    },
-    providerName:{
-        type:String
-    }
-});
-
-const StockSchema = Schema({
-    product: ProductSchema,
-    quantity: {
-        type: Number,
-        required: true
+    device_addons:{
+        type:[String],
+        default:[]
     }
 });
 
