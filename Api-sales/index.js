@@ -22,10 +22,8 @@ app.use(express.urlencoded({extended:true})); //datos que llegan en urlencoded l
 
 // RUTAS
 const stock_rout = require("./routes/stock");
-const users_rout = require("./routes/users");
+const admins_rout = require("./routes/admins");
 const sales_rout = require("./routes/sales");
-const suppliers_rout = require("./routes/suppliers");
-const history_rout = require("./routes/history");
 const customer_rout = require("./routes/customer");
 // Cargar Rutas
 
@@ -33,16 +31,10 @@ const customer_rout = require("./routes/customer");
 app.use("/stock", stock_rout);
 
 //ruta de usuario
-app.use("/users", users_rout);
-
-//Ruta de proveedores
-app.use("/suppliers", suppliers_rout);
+app.use("/admins", admins_rout);
 
 //Ruta de ventas
 app.use("/sales", sales_rout);
-
-//Ruta de historial
-app.use("/history", history_rout);
 
 //Ruta de Clientes
 app.use("/customer", customer_rout);
