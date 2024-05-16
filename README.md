@@ -7,7 +7,7 @@ Para este proyecto, decidimos aplicar una arquitectura MVC. (No fue aplicado en 
 
 ### MER
 
-![XYZ drawio](https://github.com/SebastianH03/Api-Sales/assets/85850681/575bfca5-fdb8-434c-aaa0-0851dbf62a9a)
+![service_system drawio](https://github.com/SebastianH03/service-university-system/assets/85850681/23a85eff-ff76-41b9-aa4e-483e6f987089)
 
 ### **Dependencias**
 
