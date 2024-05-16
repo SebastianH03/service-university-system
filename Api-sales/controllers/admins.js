@@ -13,7 +13,7 @@ const create = (req, res) => {
         let laboral_id = !validator.isEmpty(params.laboral_id);
         let password_validator = !validator.isEmpty(params.password); 
         let email_validator = !validator.isEmpty(params.email) && validator.isEmail(params.email); 
-        if( !name_validator || !last_name_validator || ! national_id_validator || !username_validator || laboral_id || password_validator || email_validator ){
+        if( !name_validator || !last_name_validator || ! national_id_validator || !username_validator || !laboral_id || !password_validator || !email_validator ){
             throw new Error("No se ha completado todos los campos");
         }
     }catch(error){
@@ -35,7 +35,7 @@ const create = (req, res) => {
 
         params.password = hash;  // Sustituir la contraseña con el hash
         const admin = new Admin(params);
-        user.save()
+        admin.save()
             .then(savedAdmin => {
                 if (!savedAdmin) {
                     return res.status(400).json({
@@ -145,7 +145,7 @@ const edit_by_id = (req, resp) => {
         let laboral_id = !validator.isEmpty(params.laboral_id);
         let password_validator = !validator.isEmpty(params.password); 
         let email_validator = !validator.isEmpty(params.email) && validator.isEmail(params.email); 
-        if( !name_validator || !last_name_validator || ! national_id_validator || !username_validator || laboral_id || password_validator || email_validator ){
+        if( !name_validator || !last_name_validator || ! national_id_validator || !username_validator || !laboral_id || !password_validator || !email_validator ){
             throw new Error("No se ha completado todos los campos");
         }
     }catch(error){
