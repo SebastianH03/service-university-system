@@ -20,26 +20,6 @@ app.use(cors());
 app.use(express.json()); //Recibir datos con content-type app/json
 app.use(express.urlencoded({extended:true})); //datos que llegan en urlencoded los convierte a json (formularios normales)
 
-// Middleware
-const History = require('./models/History'); // Asegúrate de ajustar la ruta al archivo del modelo
-
-app.use(async (req, res, next) => {
-    const collection = req.url.split('/')[1]; // Extrae el nombre de la colección de la URL
-
-    const history = new History({
-        action: req.method,
-        collection: collection,
-    });
-
-    try {
-        await history.save();
-        console.log('Acción guardada en el historial');
-    } catch (error) {
-        console.error('Error al guardar la acción en el historial:', error);
-    }
-
-    next();
-});
 // RUTAS
 const stock_rout = require("./routes/stock");
 const users_rout = require("./routes/users");
@@ -66,13 +46,6 @@ app.use("/history", history_rout);
 
 //Ruta de Clientes
 app.use("/customer", customer_rout);
-
-app.get("/", (req, res) => {
-    console.log("Se ha ejecutado el endpoint probando");
-    return res.status(200).send(`
-        <h1> Funcionando API </h1>
-    `); //devolver algo para la peticion, status puede ser el código http que se desea usar (200 -> exito)
-}) //req es la request y res es la respuesta de la ruta
 
 // Crear servidor y escuchar peticiones http
 app.listen(port, ()=> {

@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
 const connection = async() => {
     try{
-        await mongoose.connect("mongodb://localhost:27017/xyz_sales") //Método de moongose para conectar a la base de datos xyz_sales (await en caso de que tarde)
+        await mongoose.connect("mongodb://localhost:27017/university_service") //Método de moongose para conectar a la base de datos xyz_sales (await en caso de que tarde)
         
-        //Parámetros dentro de objetos (en caso de advertencias)
-        // useNewUrlParser: true
-        // useCreateIndex: true
-        console.log("Conectado correctamente a la base de datos xyz_sales")
+        console.log("Conectado correctamente a la base de datos university_service")
 
     }catch(error){
         console.log(error);

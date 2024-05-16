@@ -1,55 +1,34 @@
 //dependencias
 const validator = require("validator");
 const Stock = require("../models/Stock");
-const Suppliers = require("../models/Suppliers");
-const { param } = require("../routes/stock");
-
 
 //Crear
 const create = async (req, res) => {
+    console.log("Se ha ejecutado el método de prueba create de stock")
     const params = req.body;
     try{
-        if(!params.quantity || !validator.isNumeric(params.quantity) || parseFloat(params.quantity) <= 0){
-            throw new Error("La cantidad del producto no es válida");
+        if(!params.device_type || !params.device_status ){
+            throw new Error("Información del dispositivo invalida");
         }
-        if(!params.product || !params.product.name || !params.product.price){
-            throw new Error("Datos del producto son invalidos");
-        }
-        if(!validator.isLength(params.product.name, {min:3, max: 35})){
-            throw new Error("La longitud del producto no es valida (debe tener entre 3 a 35 caracteres");
-        }
-        const provider = await Suppliers.exists({name: params.product.providerName});
-        if (!provider){
-            throw new Error("El proveedor proporcionado no existe");
-        }
-        const stock = new Stock({
-            product:{
-                name: params.product.name,
-                price: params.product.price,
-                provider: provider._id,
-                tags: params.product.tags,
-                providerName: provider.name
-            },
-            quantity: params.quantity
-        });
+        const stock = new Stock(params);
         stock.save()
             .then(savedStock => {
                 if(!savedStock){
                     return res.status(400).json({
                         status: "error",
-                        message: "No se ha guardado el producto"
+                        message: "No se ha guardado el dispositivo"
                     });
                 }
                 return res.status(200).json({
                     status: "Success",
                     stock: savedStock,
-                    message: "Articulo guardado correctamente"
+                    message: "Dispositivo guardado correctamente"
                 });
             })
             .catch(error => {
                 return res.status(500).json({
                     status: "error",
-                    message: "No se ha guardado el producto",
+                    message: "No se ha guardado el dispositivo",
                     error: error.message
                 });
             });  
@@ -65,19 +44,17 @@ const create = async (req, res) => {
 
 const read = (req, res) =>{
     console.log("Se ha ejecutado el método de prueba read de stock")
-    const order = req.query.orden || 'asc';
-    const sorting = {quantity: order === 'desc' ? -1: 1};
-    let query = Stock.find({}).sort(sorting).then( stock => {
+    let query = Stock.find({}).then( stock => {
         if(!stock){
             return res.status(400).json({
                 status: "error",
-                message: "No se encontró el producto"
+                message: "No se encontró el dispositivo"
             })
         }
         return res.status(200).json({
             status: "Success",
             stock,
-            message: "Producto encontrado correctamente"
+            message: "Dispositivo encontrado correctamente"
         }); 
     })
     .catch(error => {
@@ -94,19 +71,19 @@ const read = (req, res) =>{
 //Lectura por ID
 
 const read_by_id = (req, res) => {
-    console.log("Se ha ejecutado el método de prueba obtener artículo de stock")
+    console.log("Se ha ejecutado el método de prueba obtener un sólo artículo de stock")
     let id = req.params.id;
     Stock.findById({_id:id}).then( stock => {
         if(!stock){
             return res.status(404).json({
                 status: "error",
-                message: "No se encontró el producto"
+                message: "No se encontró el dispositivo"
             });
         }
         return res.status(200).json({
             status: "Success",
             stock,
-            message: "Producto encontrado correctamente"
+            message: "Dispositivo encontrado correctamente"
         });
     })
     .catch(error => {
@@ -126,13 +103,13 @@ const del_by_id = (req, res) => {
         if(!stock){
             return res.status(404).json({
                 status: "error",
-                message: "No se ha encontrado el producto"
+                message: "No se ha encontrado el dispositivo"
             });
         }
         return res.status(200).json({
             status: "success",
             stock: stock,
-            message: "Objeto eliminado correctamente"
+            message: "Dispositivo eliminado correctamente"
         });
     }).catch( error => {
         return res.status(500).json({
@@ -150,30 +127,20 @@ const edit = async (req, res) => {
     const params = req.body;
 
     try {
-        
-        if (!params.quantity && !params.product) {
-            throw new Error("No se ha proporcionado ningún campo para editar");
+        if(!params.device_type || !params.device_status ){
+            throw new Error("Información del dispositivo invalida");
         }
-
-        if(params.product){
-            if(!params.product.price && !params.product.name && !params.product.providerName && !params.product.tags){
-                throw new Error("No se ha proporcionado ningún campo para editar en el producto");
-            }
-        }
-        // Realizar la actualización
         const updatedStock = await Stock.findByIdAndUpdate({_id: id}, {$set: params}, { new: true });
-
         if (!updatedStock) {
             return res.status(404).json({
                 status: "error",
-                message: "No se ha encontrado el producto"
+                message: "No se ha encontrado el dispositivo"
             });
         }
-
         return res.status(200).json({
             status: "success",
             stock: updatedStock,
-            message: "Producto editado correctamente"
+            message: "Dispositivo editado correctamente"
         });
     } catch(error) {
         return res.status(400).json({
