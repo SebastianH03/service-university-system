@@ -34,7 +34,7 @@ function Card({ date, event, coleccion }) {
         <Text>{event}</Text>
       </Field>
       <Field>
-        <Label>Coleccion:</Label>
+        <Label>Colección:</Label>
         <Text>{coleccion}</Text>
       </Field>
     </CardContainer>

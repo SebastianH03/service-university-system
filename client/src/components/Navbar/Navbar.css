@@ -32,7 +32,6 @@
   
   .logo-and-name:hover img {
     transform: scale(1.1); /* Escalado en hover */
-    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.5); /* Sombra en hover */
   }
   
   .nav-link {

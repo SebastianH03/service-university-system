@@ -45,6 +45,9 @@
     justify-content: center;
 }
 
-*{
-    overflow: hidden;
+.contentHistory{
+    position: relative;
+    margin-left: 250px;
+    height: auto;
+    background-color: #F8F8FF;
 }
