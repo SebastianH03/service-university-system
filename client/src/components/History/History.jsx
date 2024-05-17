@@ -10,7 +10,7 @@ function History() {
   useEffect(() => {
     async function loadHistory() {
       try {
-        const response = await axios.get('http://localhost:3900/history/');
+        const response = await axios.get('http://localhost:3900/history');
         setHistory(response.data);
       } catch (error) {
         console.error('Error al cargar el historial:', error.message);
@@ -28,6 +28,7 @@ function History() {
       </div>
       <div className="content">
         <div className="card-container">
+          
           {history.map((item, index) => (
             <Card
               key={index}

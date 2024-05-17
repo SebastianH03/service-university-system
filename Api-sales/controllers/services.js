@@ -3,7 +3,7 @@ const validator = require("validator");
 const Servis = require("../models/Services");
 const Stock = require("../models/Stock");
 
-const create = (req, res) => {
+const create = async (req, res) => {
     const params = req.body;
     try{
         let start_coordinate_validator = !validator.isEmpty(params.start_coordinate);
@@ -23,27 +23,31 @@ const create = (req, res) => {
     }
 
 
-    Stock.findById({_id:params.device._id}).then( stock => {
+    await Stock.findById({_id:params.device}).then( stock => {
         if(!stock){
             return res.status(404).json({
                 status: "error",
                 message: "No se encontró el dispositivo"
             });
         }
+        console.log(stock);
+        console.log(params.product_info[0].product_weight)
         if(stock.device_type == 'Drone'){
-            if(!params.product_info.product_weight > 0.5){
+            if(parseFloat(params.product_info[0].product_weight) > 0.5){
                 throw new Error("El Dron no puede llevar objetos de más de 0.5Kg");
             }
         }else{
-            if(!params.product_info.product_weight > 1){
+            if(parseFloat(params.product_info[0].product_weight) > 1){
                 throw new Error("El Robot no puede llevar objetos de más de 1Kg");
             }
         }
-        
-        let size = params.product_info.product_size.split("x");
+        console.log(params.product_info[0].product_size);
+        let size = params.product_info[0].product_size.split("x");
+        console.log(size);
         if(parseInt(size[0]) > 50 || parseInt(size[1]) > 50){
-            throw new Error("El objeto sobrepasa las dimenciones permitidas");
+            throw new Error("El objeto sobrepasa las dimensiones permitidas");
         }
+        
     })
     .catch(error => {
         return res.status(500).json({
@@ -53,9 +57,9 @@ const create = (req, res) => {
         });
     })
     
-
-    const Servis = new Servis(params);
-    Servis.save()
+    console.log(params)
+    const servis = await new Servis(params);
+    await servis.save()
         .then(savedServis => {
             if (!savedServis) {
                 return res.status(400).json({

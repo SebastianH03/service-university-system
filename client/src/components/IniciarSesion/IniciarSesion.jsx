@@ -1,5 +1,5 @@
 import './IniciarSesion.css';
-import logo from '../logoXYZ.png';
+import logo from '../LogoRobot.png';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import firebaseApp from '../../credenciales.js';
@@ -55,10 +55,8 @@ function IniciarSesion() {
 
   return (
     <div className='Login'>
-      <div>
-        <img src={logo} alt="logo" className='logo' />
-      </div>
       <form onSubmit={iniciar} id='divForm'>
+      <img src={logo} alt="logo" id='logoLogin'/>
         <label>
           <i className="fa-solid fa-envelope" id='correoI'></i>
           <input placeholder="correo" type="text" id="correo" ></input>

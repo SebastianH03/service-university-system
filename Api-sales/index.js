@@ -20,12 +20,33 @@ app.use(cors());
 app.use(express.json()); //Recibir datos con content-type app/json
 app.use(express.urlencoded({extended:true})); //datos que llegan en urlencoded los convierte a json (formularios normales)
 
+// Middleware
+const History = require('./models/History'); // Asegúrate de ajustar la ruta al archivo del modelo
+
+app.use(async (req, res, next) => {
+    const collection = req.url.split('/')[1]; // Extrae el nombre de la colección de la URL
+
+    const history = new History({
+        action: req.method,
+        collection: collection,
+    });
+
+    try {
+        await history.save();
+        console.log('Acción guardada en el historial');
+    } catch (error) {
+        console.error('Error al guardar la acción en el historial:', error);
+    }
+
+    next();
+});
+
 // RUTAS
 const stock_rout = require("./routes/stock");
 const admins_rout = require("./routes/admins");
 const services_rout = require("./routes/services");
-//const sales_rout = require("./routes/sales");
-//const customer_rout = require("./routes/customer");
+const history_rout = require("./routes/history");
+
 // Cargar Rutas
 
 //Ruta de stock
@@ -37,11 +58,10 @@ app.use("/admins", admins_rout);
 //Ruta de Services
 app.use("/services", services_rout);
 
-//Ruta de ventas
-//app.use("/sales", sales_rout);
+//Ruta de History
+app.use("/history", history_rout);
 
-//Ruta de Clientes
-//app.use("/customer", customer_rout);
+
 
 // Crear servidor y escuchar peticiones http
 app.listen(port, ()=> {

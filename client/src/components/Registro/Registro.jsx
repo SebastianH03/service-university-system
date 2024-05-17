@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import './Registro.css'
-import logoRegister from '../logoXYZ.png'
+import logo from '../LogoRobot.png'
 import firebaseApp from '../../credenciales.js';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+import axios from 'axios';
 
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
@@ -49,12 +50,26 @@ function Registro() {
           cedula: cedula,
           usuario: usuario,
           correo: correo,
-          // **Considera cifrar la contraseña antes de guardarla**
           contraseña: contra,
           identificadorLaboral: identificadorLaboral,
           uid: usuarioCreado.user.uid
         });
-        setMensaje("Usuario creado correctamente");
+        const dataAdmin = {
+          name: nombre,
+          lastname: apellido,
+          national_id: cedula,
+          username: usuario,
+          password: contra,
+          email: correo,
+          laboral_id: identificadorLaboral
+        }
+        axios.post("http://localhost:3900/admins", dataAdmin)
+          .then((response) => {
+            setMensaje("Usuario creado correctamente");
+          })
+          .catch((error) => {
+            setMensaje("Datos incorrectos, intente nuevamente :(", error);
+          });
       }
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
@@ -67,10 +82,9 @@ function Registro() {
 
   return (
     <div className='Registro'>
-      <div className='title'>
-        <img src={logoRegister} alt="logo" className='logoRegister' />
-      </div>
-      <form onSubmit={pulsar} id='divForm'>
+      <div id="register">
+      <form onSubmit={pulsar} id="divRegister">
+        <img src={logo} alt="logo" id='logoRegister'/>
         <label>
           <i className="fa-solid fa-user"></i>
           <input className="textInput" placeholder="nombre" type="text" id="nombre" />
@@ -96,6 +110,7 @@ function Registro() {
           <input className="textInput" placeholder="contraseña" type={showPass ? "text" : 'password'} id="contraUser" />
           {showPass ? <i className="fa-solid fa-eye" id='eye' onClick={() => setShowPass(!showPass)}></i> : <i className="fa-sharp fa-solid fa-eye-slash" id='eye' onClick={() => setShowPass(!showPass)}></i>}
         </label>
+        
         <label>
           <i className="fa-sharp fa-solid fa-lock"></i>
           <input className="textInput" placeholder="confirmar contraseña" type={showPass ? "text" : 'password'} id="contraUserV" />
@@ -106,10 +121,13 @@ function Registro() {
           <input className="textInput" placeholder="identificador laboral" type="text" id="identificadorLaboral" />
         </label>
         <p>{mensaje}</p>
-        <a href='/' className="link">cancelar</a>
-        <a href='/Registro' className="link">¿Ya tienes cuenta?</a> <a href='/IniciarSesion' className="link">Iniciar sesión</a>
+        <div class="div-container">
+          <a href='/IniciarSesion' className="link">¿Ya tienes cuenta? Iniciar sesión</a>
+          <a href='/' className="link">cancelar</a>
+        </div>
         <button id="button">Crear cuenta</button>
       </form>
+      </div>
     </div>
   );
 }
