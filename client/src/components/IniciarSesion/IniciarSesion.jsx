@@ -11,59 +11,69 @@ const provider = new GoogleAuthProvider();
 function IniciarSesion() {
   const [showPass, setShowPass] = useState(false);
   const [mensaje, setMensaje] = useState("");
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
 
   async function iniciar(e) {
     e.preventDefault();
     const correo = e.target.correo.value;
     const contra = e.target.contra.value;
+
     if (!correo.includes("@gmail.com") && (!correo.includes("@hotmail.com"))) {
-      setMensaje("correo inválido");
+      setMensaje("Correo inválido");
+      return;
     }
-    const logueo = await signInWithEmailAndPassword(auth, correo, contra)
-  .catch(error => {
-    if (error.code === 'auth/wrong-password') {
-      setMensaje("Contraseña incorrecta, intente de nuevo");
-    } else if (error.code === 'auth/user-not-found') {
-      setMensaje("Usuario no encontrado"); 
-    } else {
-      setMensaje("Error al iniciar sesión: " + error.message);
-    }
-  });
-    if (logueo.user !== null) {
-      alert("se logueo correctamente")
-      setLogin(true)
-      navigate("/");
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, correo, contra);
+      setMensaje("¡Inicio de sesión exitoso!");
+      setTimeout(() => {
+        setMensaje("");
+        navigate("/");
+      }, 3000); // Redirigir después de 3 segundos
+    } catch (error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      if (errorCode === 'auth/wrong-password') {
+        setMensaje("Contraseña incorrecta, intente de nuevo");
+      } else if (errorCode === 'auth/user-not-found') {
+        setMensaje("Usuario no encontrado");
+      } else {
+        setMensaje("Error al iniciar sesión: " + errorMessage);
+      }
     }
   }
 
   const singUpGoogle = () => {
-    const auth = getAuth();
     signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         const token = credential.accessToken;
         const user = result.user;
-      }).catch((error) => {
+        setMensaje("¡Inicio de sesión exitoso con Google!");
+        setTimeout(() => {
+          setMensaje("");
+          navigate("/");
+        }, 3000); // Redirigir después de 3 segundos
+      })
+      .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.error(errorCode, errorMessage);
+        setMensaje("Error al iniciar sesión con Google. Por favor, inténtalo de nuevo.");
       });
   }
 
   return (
     <div className='Login'>
       <form onSubmit={iniciar} id='divForm'>
-      <img src={logo} alt="logo" id='logoLogin'/>
+        <img src={logo} alt="logo" id='logoLogin'/>
         <label>
           <i className="fa-solid fa-envelope" id='correoI'></i>
-          <input placeholder="correo" type="text" id="correo" ></input>
+          <input placeholder="Correo" type="text" id="correo" />
         </label>
         <label>
           <i className="fa-solid fa-lock"></i>
-          <input placeholder="contraseña" type={showPass ? "text" : 'password'} id="contra"></input>
+          <input placeholder="Contraseña" type={showPass ? "text" : 'password'} id="contra" />
           {showPass ? <i className="fa-solid fa-eye" id='eye' onClick={() => setShowPass(!showPass)}></i> : <i className="fa-sharp fa-solid fa-eye-slash" id='eye' onClick={() => setShowPass(!showPass)}></i>}
         </label>
         <p>{mensaje}</p>

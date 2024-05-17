@@ -45,7 +45,7 @@ form label .fa-solid {
 form label input {
   outline: none;
   border: none;
-  color: white;
+  color: rgb(0, 0, 0);
   padding: 2px 5px;
   font-size: 18px;
   background-color: rgba(0,0,0,0.1);
