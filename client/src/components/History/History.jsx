@@ -23,10 +23,10 @@ function History() {
   return (
     <div className='divGeneral'>
       <Navbar />
-      <div className='Titulo-container'>
+      <div className='content'>
         <h1 id='titleHistory'>Historial</h1>
       </div>
-      <div className="history-container">
+      <div className="content">
         <div className="card-container">
           {history.map((item, index) => (
             <Card

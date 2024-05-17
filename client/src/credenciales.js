@@ -5,15 +5,16 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDGg55nT_Z5qDgTeK4bcIgUdQLszc3QDuM",
-  authDomain: "xyz-ltda.firebaseapp.com",
-  projectId: "xyz-ltda",
-  storageBucket: "xyz-ltda.appspot.com",
-  messagingSenderId: "257088076874",
-  appId: "1:257088076874:web:2f74b03239662d77ef7ab3"
+  apiKey: "AIzaSyAsgKEkkR_rIf2MEQ533Tetxw0rHIWrZco",
+  authDomain: "javebot-ea560.firebaseapp.com",
+  projectId: "javebot-ea560",
+  storageBucket: "javebot-ea560.appspot.com",
+  messagingSenderId: "392904572578",
+  appId: "1:392904572578:web:cadd2f1ee903211dc6e1fb"
 };
 
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
 export default firebaseApp;
+

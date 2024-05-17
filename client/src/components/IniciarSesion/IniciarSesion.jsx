@@ -21,13 +21,16 @@ function IniciarSesion() {
     if (!correo.includes("@gmail.com") && (!correo.includes("@hotmail.com"))) {
       setMensaje("correo inválido");
     }
-    const logueo = await signInWithEmailAndPassword(auth, correo, contra).catch(function (error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      if (errorCode === 'auth/wrong-password') {
-        setMensaje("contraseña incorrecta, intente de nuevo");
-      }
-    });
+    const logueo = await signInWithEmailAndPassword(auth, correo, contra)
+  .catch(error => {
+    if (error.code === 'auth/wrong-password') {
+      setMensaje("Contraseña incorrecta, intente de nuevo");
+    } else if (error.code === 'auth/user-not-found') {
+      setMensaje("Usuario no encontrado"); 
+    } else {
+      setMensaje("Error al iniciar sesión: " + error.message);
+    }
+  });
     if (logueo.user !== null) {
       alert("se logueo correctamente")
       setLogin(true)
