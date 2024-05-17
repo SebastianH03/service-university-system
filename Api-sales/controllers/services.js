@@ -1,7 +1,7 @@
 //dependencias
 const validator = require("validator");
 const Servis = require("../models/Services");
-
+const Stock = require("../models/Stock");
 
 const create = (req, res) => {
     const params = req.body;
@@ -11,8 +11,8 @@ const create = (req, res) => {
         let end_coordinate_validator = !validator.isEmpty(params.end_coordinate);
         let service_type_validator = !validator.isEmpty(params.service_type);
         
-        
-        if( !start_coordinate_validator || !pickup_coordinate_validator || ! end_coordinate_validator || !service_type_validator){
+
+        if( !start_coordinate_validator || !pickup_coordinate_validator || ! end_coordinate_validator || !service_type_validator || !params.destination_user || !params.requesting_user){
             throw new Error("No se ha completado todos los campos");
         }
     }catch(error){
@@ -21,6 +21,38 @@ const create = (req, res) => {
             message: "Faltan datos por enviar \n" + error
         })
     }
+
+
+    Stock.findById({_id:id}).then( stock => {
+        if(!stock){
+            return res.status(404).json({
+                status: "error",
+                message: "No se encontró el dispositivo"
+            });
+        }
+        if(stock.device_type == 'Drone'){
+            if(!params.product_info.product_weight > 0.5){
+                throw new Error("El Dron no puede llevar objetos de más de 0.5Kg");
+            }
+        }else{
+            if(!params.product_info.product_weight > 1){
+                throw new Error("El Robot no puede llevar objetos de más de 1Kg");
+            }
+        }
+        
+        let size = params.product_info.product_size.split("x");
+        if(parseInt(size[0]) > 50 || parseInt(size[1]) > 50){
+            throw new Error("El objeto sobrepasa las dimenciones permitidas");
+        }
+    })
+    .catch(error => {
+        return res.status(500).json({
+            status: "error",
+            message: "ha ocurrido un error",
+            error: error.message
+        });
+    })
+    
 
     const Servis = new Servis(params);
     Servis.save()
