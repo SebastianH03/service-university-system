@@ -23,7 +23,7 @@ const create = (req, res) => {
     }
 
 
-    Stock.findById({_id:id}).then( stock => {
+    Stock.findById({_id:params.device._id}).then( stock => {
         if(!stock){
             return res.status(404).json({
                 status: "error",
