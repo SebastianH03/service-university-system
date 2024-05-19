@@ -61,23 +61,22 @@ A continuación, se va a presentar la forma correcta realizar las solicitudes de
 
 Los métodos post y put, utilizados para crear y editar documentos en la base de datos, tienen su propia forma de creación desde POSTMAN. Para utilizarlo, se recomienda utilizar el body, con x-www-form-urlencoded.
 
-###### Colecciones Customer, Suppliers y Users
+###### Colección Services
 
-![image](https://github.com/SebastianH03/Api-Sales/assets/85850681/036b3347-d938-4995-b63b-897e50fb05e2)
+![image](https://github.com/SebastianH03/service-university-system/assets/85850681/b1021d59-1154-46cf-b072-097364e9dcea)
+
 
 ###### Colección Stock
 
-![image](https://github.com/SebastianH03/Api-Sales/assets/85850681/01af5fb1-ee69-4755-afa1-71cd2823df96)
+![image](https://github.com/SebastianH03/service-university-system/assets/85850681/1ddb3907-bdf6-4f27-b148-1223703800ce)
 
-###### Colección Sales
 
-La creación de una venta ya se encuentra implementada en el front-end, sin embargo, también es posible generarla por medio de POSTMAN.
+###### Colección Admins
 
-![image](https://github.com/SebastianH03/Api-Sales/assets/85850681/229d6bc4-7268-487e-b66d-8c7a35cfd270)
+Esta colección puede obtener información a partir de las solicitudes hechas desde el frontend, específicamente en el registro.
 
-###### Recomendación Final.
+![image](https://github.com/SebastianH03/service-university-system/assets/85850681/3a8c8601-f8bc-4f55-b188-ac6851fd85a4)
 
-La búsqueda del producto desde la página principal se usa con el id del Stock al cual pertenece el producto.
 
 
 
